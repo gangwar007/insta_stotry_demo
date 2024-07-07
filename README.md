@@ -1,20 +1,15 @@
-# insta_stotry_demo
-
-A new Flutter project.
-
-## Getting Started
-
-Insta Story Demo
+#Insta Story Demo
 This Flutter project demonstrates a story feature similar to Instagram stories, where stories auto-advance every 5 seconds and can be manually navigated. The project uses the BLoC pattern for state management and follows clean architecture principles.
 
 Table of Contents
-Features
-Getting Started
-Project Structure
-Running the App
-Running Integration Tests
-Contributing
-License
+- Features
+- Getting Started
+- Project Structure
+- Running the App
+- Running Integration Tests
+- Contributing
+- License
+  
 Features
 Auto-Advance Stories: Stories automatically advance to the next one after a set duration (5 seconds).
 Manual Navigation: Users can manually navigate between stories using UI controls (tap left or right).
