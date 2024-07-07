@@ -11,20 +11,25 @@ Table of Contents
 - License
   
 Features
-Auto-Advance Stories: Stories automatically advance to the next one after a set duration (5 seconds).
-Manual Navigation: Users can manually navigate between stories using UI controls (tap left or right).
-Progress Indicator: A progress indicator shows the current story progress.
-Error Handling: Displays a placeholder when images fail to load.
+
+- Auto-Advance Stories: Stories automatically advance to the next one after a set duration (5 seconds).
+- Manual Navigation: Users can manually navigate between stories using UI controls (tap left or right).
+- Progress Indicator: A progress indicator shows the current story progress.
+- Error Handling: Displays a placeholder when images fail to load.
+  
 Getting Started
+
 Prerequisites
-Flutter
-Dart
+
+- Flutter
+- Dart
+  
 Installation
+
 Clone the repository:
-bash
-Copy code
-git clone https://github.com/your_username/insta_story_demo.git
-cd insta_story_demo
+
+<img width="709" alt="Screenshot 2024-07-07 at 1 17 46 PM" src="https://github.com/gangwar007/insta_stotry_demo/assets/30138108/3c087503-5e1f-40b3-a939-15b3eb631483">
+
 Install dependencies:
 bash
 Copy code
