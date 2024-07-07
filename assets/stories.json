@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1",
+    "imageUrl": "https://fastly.picsum.photos/id/7/4728/3168.jpg?hmac=c5B5tfYFM9blHHMhuu4UKmhnbZoJqrzNOP9xjkV4w3o",
+    "title": "Story 1"
+  },
+  {
+    "id": "2",
+    "imageUrl": "https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68",
+    "title": "Story 2"
+  },
+  {
+    "id": "3",
+    "imageUrl": "https://fastly.picsum.photos/id/20/3670/2462.jpg?hmac=CmQ0ln-k5ZqkdtLvVO23LjVAEabZQx2wOaT4pyeG10I",
+    "title": "Story 3"
+  },
+  {
+    "id": "4",
+    "imageUrl": "https://fastly.picsum.photos/id/30/1280/901.jpg?hmac=A_hpFyEavMBB7Dsmmp53kPXKmatwM05MUDatlWSgATE",
+    "title": "Story 4"
+  },{
+  "id": "5",
+  "imageUrl": "https://fastly.picsum.photos/id/43/1280/831.jpg?hmac=glK-rQ0ppFClW-lvjk9FqEWKog07XkOxJf6Xg_cU9LI",
+  "title": "Story 5"
+},
+  {
+    "id": "6",
+    "imageUrl": "https://fastly.picsum.photos/id/57/2448/3264.jpg?hmac=ewraXYesC6HuSEAJsg3Q80bXd1GyJTxekI05Xt9YjfQ",
+    "title": "Story 6"
+  }
+]
