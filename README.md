@@ -7,8 +7,7 @@ This Flutter project demonstrates a story feature similar to Instagram stories, 
 - **Auto-Advance Stories:** Stories automatically advance to the next one after a set duration (5 seconds).
 - **Manual Navigation:** Users can manually navigate between stories using UI controls (tap left or right).
 - **Progress Indicator:** A progress indicator shows the current story progress.
-- **Error Handling:** Displays a placeholder when images fail to load.
-  
+
 **Prerequisites**
 
 - Flutter
