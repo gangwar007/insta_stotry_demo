@@ -51,7 +51,7 @@ jobs:
     - name: Verify installed components
       run: |
         echo "Installed system images:"
-        ls -R $ANDROID_SDK_ROOT/system-images/
+        ls -R $ANDROID_SDK_ROOT/system-images/ || echo "System images directory does not exist."
         echo "Installed platforms:"
         ls -R $ANDROID_SDK_ROOT/platforms/
         echo "Installed build-tools:"
