@@ -49,19 +49,9 @@ jobs:
         adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; echo "Waiting for emulator to boot..."; done;'
         echo "Emulator booted."
 
-    - name: Launch Emulator
-      run: |
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
-
-    - name: Wait for emulator to boot
-      run: |
-        adb wait-for-device
-        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 5; echo "Waiting for emulator to boot..."; done;'
-        echo "Emulator booted."
 
     - name: Run integration tests
       run: |
-        flutter devices
         flutter drive \
           --driver=test_driver/integration_test_driver.dart \
-          --target=integration_test/story_detail_screen_test.dart -d emulator-5554
+          --target=integration_test/story_detail_screen_test.dart
