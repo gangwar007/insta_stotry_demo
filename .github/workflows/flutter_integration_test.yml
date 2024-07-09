@@ -20,11 +20,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.10.6'
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build apk with flutter
-        run: flutter build apk --debug
+        run: flutter build apk --release
 
       - name: Build Android test APK
         run: |
