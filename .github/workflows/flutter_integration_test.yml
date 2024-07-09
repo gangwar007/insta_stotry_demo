@@ -33,10 +33,6 @@ jobs:
           ./gradlew app:assembleAndroidTest
           ./gradlew app:assembleDebug -Ptarget=test_driver/integration_test_driver.dart
 
-      - name: Set up Firebase CLI
-        run: curl -sL https://firebase.tools | bash
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Authenticate to Google Cloud
         run: |
