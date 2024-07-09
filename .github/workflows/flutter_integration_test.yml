@@ -56,7 +56,9 @@ jobs:
 
     - name: Create and start emulator
       run: |
+        echo "Creating AVD..."
         avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+        echo "Starting emulator..."
         $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-snapshot -no-window -no-audio &
 
     - name: Wait for emulator to boot
