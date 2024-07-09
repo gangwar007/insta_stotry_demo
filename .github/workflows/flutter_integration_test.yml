@@ -42,11 +42,10 @@ jobs:
     - name: Launch Emulator
       run: |
         $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-snapshot -no-window -no-audio &
-
-    - name: Wait for emulator to boot
-      run: |
+        sleep 5
         adb wait-for-device
-        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; echo "Waiting for emulator to boot..."; done;'
+        echo "Emulator booted."
 
     - name: Run integration tests
       run: |
