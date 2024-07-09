@@ -31,7 +31,7 @@ jobs:
         run: |
           cd android
           ./gradlew app:assembleAndroidTest
-          ./gradlew app:assembleDebug -Ptarget=test_driver/integration_test_driver.dart
+          ./gradlew app:assembleDebug -Ptarget=integration_test/story_detail_screen_test.dart
 
 
       - name: Authenticate to Google Cloud
