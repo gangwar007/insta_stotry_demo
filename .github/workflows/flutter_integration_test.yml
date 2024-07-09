@@ -33,8 +33,11 @@ jobs:
       - name: Build Android app
         run: flutter build apk --release
 
+      - name: Build Android debug APK
+        run: flutter build apk --debug
+
       - name: Build Android test APK
-        run: ./gradlew app:assembleAndroidTest
+        run: flutter build apk --debug --target integration_test/app_test.dart --no-shrink
 
       - name: Set up Firebase CLI
         run: curl -sL https://firebase.tools | bash
@@ -50,14 +53,14 @@ jobs:
       - name: Verify APK paths
         run: |
           ls -l build/app/outputs/flutter-apk/app-release.apk
-          ls -l build/app/outputs/apk/debug/app-debug-androidTest.apk
+          ls -l build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Run tests in Firebase Test Lab
         run: |
           gcloud firebase test android run \
             --type instrumentation \
             --app build/app/outputs/flutter-apk/app-release.apk \
-            --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+            --test build/app/outputs/flutter-apk/app-debug-androidTest.apk \
             --device model=Pixel2,version=29,locale=en,orientation=portrait
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
