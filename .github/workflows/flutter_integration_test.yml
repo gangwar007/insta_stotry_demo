@@ -30,84 +30,22 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
 
-    - name: Download and set up Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      
+    - name: Setup gradle
+      uses: gradle/gradle-build-action@v2    
+        
+    - name: Create Android emulator
       run: |
-        sudo apt-get update -qq
-        sudo apt-get install -y openjdk-11-jdk wget unzip
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        cd $HOME/android-sdk/cmdline-tools
-        wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -O commandlinetools.zip
-        unzip commandlinetools.zip -d .
-        mv cmdline-tools latest
-        echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
-        echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$HOME/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
-        source $GITHUB_ENV
+        sdkmanager --install "system-images;android-31;google_apis;x86_64"
+        echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
+    - name: Copy jar files to app folder
+      run: gradle extractLibs
 
-    - name: Install Android SDK components
-      run: |
-        echo "Installing platform-tools..."
-        sdkmanager --install "platform-tools"
-        echo "Verifying platform-tools installation..."
-        ls $ANDROID_SDK_ROOT/platform-tools || echo "platform-tools directory does not exist."
-
-        echo "Installing platforms..."
-        sdkmanager --install "platforms;android-30"
-        echo "Verifying platforms installation..."
-        ls $ANDROID_SDK_ROOT/platforms || echo "platforms directory does not exist."
-
-        echo "Installing build-tools..."
-        sdkmanager --install "build-tools;30.0.3"
-        echo "Verifying build-tools installation..."
-        ls $ANDROID_SDK_ROOT/build-tools || echo "build-tools directory does not exist."
-
-        echo "Installing system images..."
-        sdkmanager --install "system-images;android-30;google_apis;x86_64"
-        echo "Verifying system images installation..."
-        ls $ANDROID_SDK_ROOT/system-images || echo "system-images directory does not exist."
-
-        echo "Installing emulator..."
-        sdkmanager --install "emulator"
-        echo "Verifying emulator installation..."
-        ls $ANDROID_SDK_ROOT/emulator || echo "emulator directory does not exist."
-
-        yes | sdkmanager --licenses
-
-    - name: Verify installed components
-      run: |
-        echo "Installed system images:"
-        ls -R $ANDROID_SDK_ROOT/system-images/ || echo "System images directory does not exist."
-        echo "Installed platforms:"
-        ls -R $ANDROID_SDK_ROOT/platforms/ || echo "Platforms directory does not exist."
-        echo "Installed build-tools:"
-        ls -R $ANDROID_SDK_ROOT/build-tools/ || echo "Build-tools directory does not exist."
-        echo "Installed emulator:"
-        ls -R $ANDROID_SDK_ROOT/emulator/ || echo "Emulator directory does not exist."
-
-    - name: List installed system images
-      run: sdkmanager --list
-
-    - name: List available AVD targets
-      run: avdmanager list target
-
-    - name: Verify system image paths
-      run: |
-        echo "Checking system image paths..."
-        echo "ANDROID_SDK_ROOT = $ANDROID_SDK_ROOT"
-        ls $ANDROID_SDK_ROOT/system-images || echo "system-images directory does not exist."
-        ls $ANDROID_SDK_ROOT/system-images/android-30 || echo "android-30 directory does not exist."
-        ls $ANDROID_SDK_ROOT/system-images/android-30/google_apis || echo "google_apis directory does not exist."
-        if [ ! -d "$ANDROID_SDK_ROOT/system-images/android-30/google_apis/x86_64" ]; then
-          echo "System image path does not exist."
-          exit 1
-        fi
-        echo "System image path exists."
-
-    - name: Create and start emulator
-      run: |
-        echo "Creating AVD..."
-        avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
-        echo "Starting emulator..."
-        $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-snapshot -no-window -no-audio &
+    - name: Launch Emulator
+      run: | 
+        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD
 
     - name: Wait for emulator to boot
       run: |
