@@ -13,39 +13,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.10.6' # Set the Flutter version to your project's version
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.10.6' # Set the Flutter version to your project's version
 
-      - name: Install dependencies
-        run: flutter pub get
+    - name: Install dependencies
+      run: flutter pub get
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '8'
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '8'
 
-      - name: Set up Android SDK
-        uses: reactivecircus/android-emulator-runner@v2.17.0
-        with:
-          api-level: 30
-          target: google_apis
-          arch: x86_64
-          profile: Nexus 6
-          avd-name: test
-          emulator-options: "-no-window -no-audio"
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
+      with:
+        api-level: 30
+        target: google_apis
+        arch: x86_64
+        emulator: true
 
-      - name: Wait for emulator to boot
-        run: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+    - name: Create and start emulator
+      run: |
+        avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+        emulator -avd test -no-snapshot -no-window -no-audio &
+    
+    - name: Wait for emulator to boot
+      run: |
+        adb wait-for-device
+        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
 
-      - name: Run integration tests
-        run: |
-          flutter devices
-          flutter drive \
-            --driver=test_driver/integration_test_driver.dart \
-            --target=integration_test/story_detail_screen_test.dart -d emulator-5554
+    - name: Run integration tests
+      run: |
+        flutter devices
+        flutter drive \
+          --driver=test_driver/integration_test_driver.dart \
+          --target=integration_test/story_detail_screen_test.dart -d emulator-5554
