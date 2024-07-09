@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'zulu'
-        java-version: '8'
+        java-version: '11'
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v2
@@ -42,7 +42,7 @@ jobs:
       run: |
         avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
         emulator -avd test -no-snapshot -no-window -no-audio &
-    
+
     - name: Wait for emulator to boot
       run: |
         adb wait-for-device
