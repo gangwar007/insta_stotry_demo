@@ -34,14 +34,14 @@ jobs:
       uses: android-actions/setup-android@v2
 
     - name: Install Android system image
-      run: sdkmanager --install "system-images;android-30;google_apis;x86"
+      run: sdkmanager --install "system-images;android-28;default;armeabi-v7a"
 
     - name: Create Android emulator
-      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86 --package 'system-images;android-30;google_apis;x86'
+      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi default/armeabi-v7a --package 'system-images;android-28;default;armeabi-v7a'
 
     - name: Launch Emulator
       run: |
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio -gpu swiftshader_indirect &
+        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
 
     - name: Wait for emulator to boot
       run: |
