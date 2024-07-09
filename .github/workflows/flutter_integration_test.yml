@@ -31,22 +31,24 @@ jobs:
         java-version: '11'
 
     - name: Download and set up Android SDK
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         sudo apt-get update -qq
         sudo apt-get install -y openjdk-11-jdk wget unzip
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        cd $HOME/android-sdk/cmdline-tools
+        mkdir -p ${{ runner.temp }}/android-sdk/cmdline-tools
+        cd ${{ runner.temp }}/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip -O commandlinetools.zip
         unzip commandlinetools.zip -d latest
-        echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
-        echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$HOME/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
+        echo "ANDROID_SDK_ROOT=${{ runner.temp }}/android-sdk" >> $GITHUB_ENV
+        echo "PATH=${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin:${{ runner.temp }}/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
 
     - name: Install Android SDK components
       env:
-        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+        ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
       run: |
-        $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --install "platform-tools" "platforms;android-30" "build-tools;30.0.3" "system-images;android-30;google_apis;x86_64" "emulator"
-        yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses   
+        ${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin/sdkmanager --install "platform-tools" "platforms;android-30" "build-tools;30.0.3" "system-images;android-30;google_apis;x86_64" "emulator"
+        yes | ${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+ 
 
     - name: Create and start emulator
       run: |
