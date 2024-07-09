@@ -30,38 +30,20 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
+    - name: Build Android app
+      run: flutter build apk --release
 
-    - name: Install Android system image
-      run: sdkmanager --install "system-images;android-29;google_apis;x86"
+    - name: Set up Firebase CLI
+      run: curl -sL https://firebase.tools | bash
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-    - name: Create Android emulator
-      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86 --package 'system-images;android-29;google_apis;x86'
-
-    - name: Launch Emulator
+    - name: Run tests in Firebase Test Lab
       run: |
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio -gpu swiftshader_indirect &
-        EMU_PID=$!
-        echo "Emulator started with PID $EMU_PID"
-
-    - name: Wait for emulator to boot
-      run: |
-        adb wait-for-device
-        timeout=600
-        while [[ "$timeout" -gt 0 && "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]]; do
-          sleep 1
-          timeout=$((timeout - 1))
-          echo "Waiting for emulator to boot... ($timeout seconds left)"
-        done
-        if [[ "$timeout" -le 0 ]]; then
-          echo "Emulator failed to boot within the timeout period"
-          exit 1
-        fi
-        echo "Emulator booted successfully"
-
-    - name: Run integration tests
-      run: |
-        flutter drive \
-          --driver=test_driver/integration_test_driver.dart \
-          --target=integration_test/story_detail_screen_test.dart
+        gcloud firebase test android run \
+          --type instrumentation \
+          --app build/app/outputs/flutter-apk/app-release.apk \
+          --test build/app/outputs/apk/androidTest/release/app-release-androidTest.apk \
+          --device model=Pixel2,version=29,locale=en,orientation=portrait
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
