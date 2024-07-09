@@ -78,8 +78,9 @@ jobs:
       run: |
         echo "Checking system image paths..."
         echo "ANDROID_SDK_ROOT = $ANDROID_SDK_ROOT"
-        ls $ANDROID_SDK_ROOT/system-images
-        ls $ANDROID_SDK_ROOT/system-images/android-30
+        ls $ANDROID_SDK_ROOT/system-images || echo "system-images directory does not exist."
+        ls $ANDROID_SDK_ROOT/system-images/android-30 || echo "android-30 directory does not exist."
+        ls $ANDROID_SDK_ROOT/system-images/android-30/google_apis || echo "google_apis directory does not exist."
         if [ ! -d "$ANDROID_SDK_ROOT/system-images/android-30/google_apis/x86_64" ]; then
           echo "System image path does not exist."
           exit 1
