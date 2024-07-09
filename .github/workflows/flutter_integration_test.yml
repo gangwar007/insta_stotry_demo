@@ -34,10 +34,20 @@ jobs:
       uses: android-actions/setup-android@v2
 
     - name: Install Android system image
-      run: sdkmanager --install "system-images;android-28;default;armeabi-v7a"
+      run: sdkmanager --install "system-images;android-29;default;armeabi-v7a"
 
     - name: Create Android emulator
-      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi default/armeabi-v7a --package 'system-images;android-28;default;armeabi-v7a'
+      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi default/armeabi-v7a --package 'system-images;android-29;default;armeabi-v7a'
+
+    - name: Launch Emulator
+      run: |
+        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
+
+    - name: Wait for emulator to boot
+      run: |
+        adb wait-for-device
+        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; echo "Waiting for emulator to boot..."; done;'
+        echo "Emulator booted."
 
     - name: Launch Emulator
       run: |
