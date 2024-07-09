@@ -19,7 +19,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '2.2.3' # Set the Flutter version to your project's version
+        flutter-version: '3.10.6' # Set the Flutter version to your project's version
 
     - name: Install dependencies
       run: flutter pub get
