@@ -37,7 +37,7 @@ jobs:
       run: sdkmanager --install "system-images;android-33;default;arm64-v8a"
 
     - name: Create Android emulator
-      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi default/armeabi-v7a --package 'system-images;android-29;default;armeabi-v7a'
+      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi default/armeabi-v7a --package 'system-images;android-33;default;arm64-v8a'
 
     - name: Launch Emulator
       run: |
