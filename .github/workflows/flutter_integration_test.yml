@@ -38,6 +38,13 @@ jobs:
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
+    - name: Authenticate to Google Cloud
+      id: auth
+      run: |
+        echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > $HOME/gcloud-service-key.json
+        gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
+        gcloud --quiet config set project instastory-428913
+
     - name: Run tests in Firebase Test Lab
       run: |
         gcloud firebase test android run \
@@ -46,4 +53,4 @@ jobs:
           --test build/app/outputs/apk/androidTest/release/app-release-androidTest.apk \
           --device model=Pixel2,version=29,locale=en,orientation=portrait
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
