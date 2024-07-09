@@ -40,7 +40,7 @@ jobs:
         run: |
           cd android
           ./gradlew app:assembleAndroidTest
-          ./gradlew app:assembleDebug -Ptarget=integration_test/app_test.dart
+          ./gradlew app:assembleDebug -Ptarget=test_driver/integration_test_driver.dart
 
       - name: Set up Firebase CLI
         run: curl -sL https://firebase.tools | bash
