@@ -35,4 +35,4 @@ jobs:
       run: |
         flutter drive \
           --driver=test_driver/integration_test_driver.dart \
-          --target=integration_test/app_test.dart
+          --target=integration_test/story_detail_screen_test.dart
