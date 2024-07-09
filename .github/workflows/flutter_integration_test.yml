@@ -30,15 +30,21 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
 
+    - name: Cache Android SDK
+      uses: actions/cache@v2
+      with:
+        path: ${{ runner.temp }}/android-sdk
+        key: ${{ runner.os }}-android-sdk
+
     - name: Download and set up Android SDK
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
         sudo apt-get update -qq
         sudo apt-get install -y openjdk-11-jdk wget unzip
         mkdir -p ${{ runner.temp }}/android-sdk/cmdline-tools
-        cd ${{ runner.temp }}/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip -O commandlinetools.zip
-        unzip commandlinetools.zip -d latest
+        unzip commandlinetools.zip -d ${{ runner.temp }}/android-sdk/cmdline-tools
+        mv ${{ runner.temp }}/android-sdk/cmdline-tools/cmdline-tools ${{ runner.temp }}/android-sdk/cmdline-tools/latest
         echo "ANDROID_SDK_ROOT=${{ runner.temp }}/android-sdk" >> $GITHUB_ENV
         echo "PATH=${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin:${{ runner.temp }}/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
 
@@ -48,12 +54,11 @@ jobs:
       run: |
         ${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin/sdkmanager --install "platform-tools" "platforms;android-30" "build-tools;30.0.3" "system-images;android-30;google_apis;x86_64" "emulator"
         yes | ${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
- 
 
     - name: Create and start emulator
       run: |
-        $HOME/android-sdk/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
-        $HOME/android-sdk/emulator/emulator -avd test -no-snapshot -no-window -no-audio &
+        ${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+        ${{ runner.temp }}/android-sdk/emulator/emulator -avd test -no-snapshot -no-window -no-audio &
 
     - name: Wait for emulator to boot
       run: |
