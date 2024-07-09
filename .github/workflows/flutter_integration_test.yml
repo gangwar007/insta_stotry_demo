@@ -33,6 +33,9 @@ jobs:
     - name: Build Android app
       run: flutter build apk --release
 
+    - name: Build Android test app
+      run: flutter build apk --release --target=integration_test/story_detail_screen_test.dart
+
     - name: Set up Firebase CLI
       run: curl -sL https://firebase.tools | bash
       env:
@@ -44,6 +47,11 @@ jobs:
         cat $HOME/gcloud-service-key.json  # Debug: Ensure the file content is correct
         gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
         gcloud --quiet config set project instastory-428913
+
+    - name: Verify APK paths
+      run: |
+        ls -l build/app/outputs/flutter-apk/app-release.apk
+        ls -l build/app/outputs/apk/androidTest/release/app-release-androidTest.apk
 
     - name: Run tests in Firebase Test Lab
       run: |
