@@ -1,0 +1,38 @@
+name: Flutter Integration Test CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  integration_test:
+    runs-on: ubuntu-latest
+
+    services:
+      xvfb:
+        image: cirrusci/flutter:latest
+        options: --privileged
+        ports:
+          - 5900:5900
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.10.6' # Set the Flutter version to your project's version
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Integration tests
+      run: |
+        flutter drive \
+          --driver=test_driver/integration_test_driver.dart \
+          --target=integration_test/app_test.dart
