@@ -56,7 +56,7 @@ jobs:
     - name: Wait for emulator to boot
       run: |
         adb wait-for-device
-        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; echo "Waiting for emulator to boot..."; done;'
+        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 5; echo "Waiting for emulator to boot..."; done;'
         echo "Emulator booted."
 
     - name: Run integration tests
