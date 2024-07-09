@@ -19,7 +19,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.10.6' # Set the Flutter version to your project's version
+        flutter-version: '3.10.6'
 
     - name: Install dependencies
       run: flutter pub get
@@ -47,14 +47,29 @@ jobs:
       run: |
         echo "Installing platform-tools..."
         sdkmanager --install "platform-tools"
+        echo "Verifying platform-tools installation..."
+        ls $ANDROID_SDK_ROOT/platform-tools || echo "platform-tools directory does not exist."
+
         echo "Installing platforms..."
         sdkmanager --install "platforms;android-30"
+        echo "Verifying platforms installation..."
+        ls $ANDROID_SDK_ROOT/platforms || echo "platforms directory does not exist."
+
         echo "Installing build-tools..."
         sdkmanager --install "build-tools;30.0.3"
+        echo "Verifying build-tools installation..."
+        ls $ANDROID_SDK_ROOT/build-tools || echo "build-tools directory does not exist."
+
         echo "Installing system images..."
         sdkmanager --install "system-images;android-30;google_apis;x86_64"
+        echo "Verifying system images installation..."
+        ls $ANDROID_SDK_ROOT/system-images || echo "system-images directory does not exist."
+
         echo "Installing emulator..."
         sdkmanager --install "emulator"
+        echo "Verifying emulator installation..."
+        ls $ANDROID_SDK_ROOT/emulator || echo "emulator directory does not exist."
+
         yes | sdkmanager --licenses
 
     - name: Verify installed components
