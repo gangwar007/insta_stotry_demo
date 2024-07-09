@@ -35,17 +35,19 @@ jobs:
       
     - name: Setup gradle
       uses: gradle/gradle-build-action@v2    
-        
+
+    - name: Install Android system image
+      run: sdkmanager --install "system-images;android-31;google_apis;x86_64"
+
     - name: Create Android emulator
-      run: |
-        sdkmanager --install "system-images;android-31;google_apis;x86_64"
-        echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
+      run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
+
     - name: Copy jar files to app folder
       run: gradle extractLibs
 
     - name: Launch Emulator
-      run: | 
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD
+      run: |
+        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-snapshot -no-window -no-audio &
 
     - name: Wait for emulator to boot
       run: |
@@ -58,3 +60,4 @@ jobs:
         flutter drive \
           --driver=test_driver/integration_test_driver.dart \
           --target=integration_test/story_detail_screen_test.dart -d emulator-5554
+
