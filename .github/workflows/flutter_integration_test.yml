@@ -55,7 +55,6 @@ jobs:
 
       - name: Verify APK paths
         run: |
-          ls -l ../build/app/outputs/flutter-apk/app-release.apk
           ls -l ../build/app/outputs/apk/debug/app-debug.apk
           ls -l ../build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
