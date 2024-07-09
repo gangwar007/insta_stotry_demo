@@ -24,17 +24,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Build Android app
-        run: flutter build apk --release
+      - name: Build apk with flutter
+        run: flutter build apk --debug
 
       - name: Build Android test APK
         run: |
