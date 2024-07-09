@@ -41,15 +41,15 @@ jobs:
 
       - name: Verify APK paths
         run: |
-          ls -l ../build/app/outputs/apk/debug/app-debug.apk
-          ls -l ../build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          ls -l build/app/outputs/apk/debug/app-debug.apk
+          ls -l build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
       - name: Run tests in Firebase Test Lab
         run: |
           gcloud firebase test android run \
             --type instrumentation \
-            --app ../build/app/outputs/flutter-apk/app-release.apk \
-            --test ../build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+            --app build/app/outputs/flutter-apk/app-release.apk \
+            --test build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
             --device model=Pixel2,version=29,locale=en,orientation=portrait
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
