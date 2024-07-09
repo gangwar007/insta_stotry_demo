@@ -30,9 +30,8 @@ jobs:
       - name: Build Android test APK
         run: |
           cd android
-          ./gradlew app:assembleAndroidTest
           ./gradlew app:assembleDebug
-
+          ./gradlew app:assembleAndroidTest
 
       - name: Authenticate to Google Cloud
         run: |
