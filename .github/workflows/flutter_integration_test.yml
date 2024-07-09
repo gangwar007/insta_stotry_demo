@@ -45,7 +45,16 @@ jobs:
 
     - name: Install Android SDK components
       run: |
-        sdkmanager --install "platform-tools" "platforms;android-30" "build-tools;30.0.3" "system-images;android-30;google_apis;x86_64" "emulator"
+        echo "Installing platform-tools..."
+        sdkmanager --install "platform-tools"
+        echo "Installing platforms..."
+        sdkmanager --install "platforms;android-30"
+        echo "Installing build-tools..."
+        sdkmanager --install "build-tools;30.0.3"
+        echo "Installing system images..."
+        sdkmanager --install "system-images;android-30;google_apis;x86_64"
+        echo "Installing emulator..."
+        sdkmanager --install "emulator"
         yes | sdkmanager --licenses
 
     - name: Verify installed components
@@ -53,11 +62,11 @@ jobs:
         echo "Installed system images:"
         ls -R $ANDROID_SDK_ROOT/system-images/ || echo "System images directory does not exist."
         echo "Installed platforms:"
-        ls -R $ANDROID_SDK_ROOT/platforms/
+        ls -R $ANDROID_SDK_ROOT/platforms/ || echo "Platforms directory does not exist."
         echo "Installed build-tools:"
-        ls -R $ANDROID_SDK_ROOT/build-tools/
+        ls -R $ANDROID_SDK_ROOT/build-tools/ || echo "Build-tools directory does not exist."
         echo "Installed emulator:"
-        ls -R $ANDROID_SDK_ROOT/emulator/
+        ls -R $ANDROID_SDK_ROOT/emulator/ || echo "Emulator directory does not exist."
 
     - name: List installed system images
       run: sdkmanager --list
