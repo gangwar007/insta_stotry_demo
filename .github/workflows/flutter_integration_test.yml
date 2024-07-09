@@ -37,7 +37,7 @@ jobs:
         run: flutter build apk --debug
 
       - name: Build Android test APK
-        run: flutter build apk --debug --target integration_test/app_test.dart --no-shrink
+        run: flutter build apk --debug --target integration_test/story_detail_screen_test.dart --no-shrink
 
       - name: Set up Firebase CLI
         run: curl -sL https://firebase.tools | bash
