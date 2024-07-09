@@ -13,52 +13,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.10.6'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.6'
 
-    - name: Install dependencies
-      run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '11'
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
 
-    - name: Build Android app
-      run: flutter build apk --release
+      - name: Build Android app
+        run: flutter build apk --release
 
-    - name: Build Android integration test
-      run: flutter build apk --debug --target test_driver/integration_test_driver.dart --no-shrink
+      - name: Build Android test APK
+        run: ./gradlew app:assembleAndroidTest
 
-    - name: Set up Firebase CLI
-      run: curl -sL https://firebase.tools | bash
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Set up Firebase CLI
+        run: curl -sL https://firebase.tools | bash
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-    - name: Authenticate to Google Cloud
-      run: |
-        echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > $HOME/gcloud-service-key.json
-        cat $HOME/gcloud-service-key.json  # Debug: Ensure the file content is correct
-        gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
-        gcloud --quiet config set project instastory-428913
+      - name: Authenticate to Google Cloud
+        run: |
+          echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > $HOME/gcloud-service-key.json
+          gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
+          gcloud --quiet config set project instastory-428913
 
-    - name: Verify APK paths
-      run: |
-        ls -l build/app/outputs/flutter-apk/app-release.apk
-        ls -l build/app/outputs/flutter-apk/app-debug.apk
+      - name: Verify APK paths
+        run: |
+          ls -l build/app/outputs/flutter-apk/app-release.apk
+          ls -l build/app/outputs/apk/debug/app-debug-androidTest.apk
 
-    - name: Run tests in Firebase Test Lab
-      run: |
-        gcloud firebase test android run \
-          --type instrumentation \
-          --app build/app/outputs/flutter-apk/app-release.apk \
-          --test build/app/outputs/flutter-apk/app-debug.apk \
-          --device model=Pixel2,version=29,locale=en,orientation=portrait
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
+      - name: Run tests in Firebase Test Lab
+        run: |
+          gcloud firebase test android run \
+            --type instrumentation \
+            --app build/app/outputs/flutter-apk/app-release.apk \
+            --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+            --device model=Pixel2,version=29,locale=en,orientation=portrait
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
