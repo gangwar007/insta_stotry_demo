@@ -46,8 +46,17 @@ jobs:
     - name: Wait for emulator to boot
       run: |
         adb wait-for-device
-        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; echo "Waiting for emulator to boot..."; done;'
-        echo "Emulator booted."
+        timeout=600
+        while [[ "$timeout" -gt 0 && "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" != "1" ]]; do
+          sleep 1
+          timeout=$((timeout - 1))
+          echo "Waiting for emulator to boot... ($timeout seconds left)"
+        done
+        if [[ "$timeout" -le 0 ]]; then
+          echo "Emulator failed to boot within the timeout period"
+          exit 1
+        fi
+        echo "Emulator booted successfully"
 
 
     - name: Run integration tests
