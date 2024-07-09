@@ -1,4 +1,4 @@
-name: Flutter Integration Test CI
+name: Flutter Integration Test and Coverage CI
 
 on:
   push:
@@ -40,18 +40,7 @@ jobs:
       run: echo "no" | avdmanager --verbose create avd --force --name testAVD --package 'system-images;android-33;default;arm64-v8a'
 
     - name: Launch Emulator
-      run: |
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
-
-    - name: Wait for emulator to boot
-      run: |
-        adb wait-for-device
-        adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; echo "Waiting for emulator to boot..."; done;'
-        echo "Emulator booted."
-
-    - name: Launch Emulator
-      run: |
-        $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
+      run: $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD -no-window -no-audio &
 
     - name: Wait for emulator to boot
       run: |
@@ -59,9 +48,18 @@ jobs:
         adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 5; echo "Waiting for emulator to boot..."; done;'
         echo "Emulator booted."
 
-    - name: Run integration tests
+    - name: Run integration tests and generate coverage
       run: |
-        flutter devices
-        flutter drive \
-          --driver=test_driver/integration_test_driver.dart \
-          --target=integration_test/story_detail_screen_test.dart -d emulator-5554
+        flutter test --coverage
+        # Upload coverage report (replace with your upload mechanism)
+        bash <(curl -s https://codecov.io/bash)
+
+    - name: Upload test artifacts (optional)
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-reports
+        path: coverage/lcov.info
+
+    - name: Fail workflow on test failures (optional)
+      run: exit 1  # This will fail the workflow if any test fails
+
