@@ -32,18 +32,12 @@ jobs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
-      
-    - name: Setup gradle
-      uses: gradle/gradle-build-action@v2    
 
     - name: Install Android system image
       run: sdkmanager --install "system-images;android-31;google_apis;x86_64"
 
     - name: Create Android emulator
       run: echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
-
-    - name: Copy jar files to app folder
-      run: gradle extractLibs
 
     - name: Launch Emulator
       run: |
@@ -60,4 +54,3 @@ jobs:
         flutter drive \
           --driver=test_driver/integration_test_driver.dart \
           --target=integration_test/story_detail_screen_test.dart -d emulator-5554
-
