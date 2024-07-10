@@ -41,7 +41,6 @@ jobs:
         run: |
           echo "Listing all files:"
           find .
-   
 
       - name: Authenticate to Google Cloud
         run: |
