@@ -35,10 +35,12 @@ jobs:
 
       - name: Verify APK paths
         run: |
-         echo "Listing debug APK:"
-         ls -l android/app/build/outputs/apk/debug/app-debug.apk
-         echo "Listing test APK:"
-         ls -l android/app/build/outputs/apk/androidTest/debug/    
+            echo "Listing release APK:"
+            ls -l android/app/build/outputs/apk/release/
+            echo "Listing debug APK:"
+            ls -l android/app/build/outputs/apk/debug/
+            echo "Listing test APK:"
+            ls -l android/app/build/outputs/apk/androidTest/debug/    
 
       - name: Authenticate to Google Cloud
         run: |
