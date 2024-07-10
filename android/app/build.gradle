@@ -52,7 +52,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -62,15 +62,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
-    }
-    configurations.all {
-        resolutionStrategy {
-            force 'androidx.test:runner:1.4.0'
-            force 'androidx.test.espresso:espresso-core:3.4.0'
-        }
-    }
 }
 
 flutter {
@@ -78,10 +69,10 @@ flutter {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'junit:junit:4.12'
 
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestUtil 'androidx.test:orchestrator:1.4.0'
+    // https://developer.android.com/jetpack/androidx/releases/test/#1.2.0
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
