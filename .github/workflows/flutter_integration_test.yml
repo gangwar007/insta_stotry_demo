@@ -33,6 +33,7 @@ jobs:
       - name: Build Android test APK
         run: |
           cd android
+          ./gradlew clean
           ./gradlew app:assembleAndroidTest
           ./gradlew app:assembleDebug -Ptarget=integration_test/story_detail_screen_test.dart
 
