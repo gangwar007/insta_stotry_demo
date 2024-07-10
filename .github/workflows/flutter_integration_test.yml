@@ -42,12 +42,6 @@ jobs:
           echo "Listing all files:"
           find .
 
-      - name: Authenticate to Google Cloud
-        run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > $HOME/gcloud-service-key.json
-          gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
-          gcloud --quiet config set project instastory-428913
-
       - name: Verify APK paths
         run: |
             echo "Listing debug APK:"
@@ -57,6 +51,10 @@ jobs:
 
       - name: Run tests in Firebase Test Lab
         run: |
+          echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > $HOME/gcloud-service-key.json
+          gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
+          gcloud --quiet config set project instastory-428913
+          
           gcloud firebase test android run \
               --type instrumentation \
               --app ./build/app/outputs/apk/debug/app-debug.apk \
