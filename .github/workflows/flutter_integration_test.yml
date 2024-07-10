@@ -45,7 +45,7 @@ jobs:
           gcloud firebase test android run \
             --type instrumentation \
             --app build/app/outputs/flutter-apk/app-release.apk \
-            --test build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+            --test build/outputs/flutter-apk/app-release.apk \
             --device model=Pixel2,version=29,locale=en,orientation=portrait
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
