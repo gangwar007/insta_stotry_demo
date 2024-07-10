@@ -25,7 +25,7 @@ jobs:
         run: flutter pub get
 
       - name: Build apk with flutter
-        run: flutter build apk --debug
+        run: fvm flutter build apk --debug
 
       - name: Build Android test APK
         run: |
