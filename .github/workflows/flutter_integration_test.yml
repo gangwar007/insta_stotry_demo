@@ -21,10 +21,11 @@ jobs:
         with:
           flutter-version: '3.10.6'
 
+      - name: Clean project
+        run: flutter clean
+
       - name: Install dependencies
-        run: |
-          flutter clean
-          flutter pub get
+        run: flutter pub get
 
       - name: Build apk with flutter
         run: flutter build apk --debug
