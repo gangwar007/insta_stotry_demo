@@ -37,11 +37,6 @@ jobs:
           ./gradlew app:assembleAndroidTest
           ./gradlew app:assembleDebug -Ptarget=test_driver/integration_test_driver.dart
 
-      - name: List all files for debugging
-        run: |
-          echo "Listing all files:"
-          find .
-
       - name: Verify APK paths
         run: |
             echo "Listing debug APK:"
