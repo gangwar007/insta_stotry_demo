@@ -3,7 +3,5 @@
 
     <instrumentation
         android:name="androidx.test.runner.AndroidJUnitRunner"
-        android:targetPackage="com.example.insta_stotry_demo"
-        android:handleProfiling="true"
-        android:functionalTest="true"/>
+        android:targetPackage="com.example.insta_stotry_demo" />
 </manifest>
