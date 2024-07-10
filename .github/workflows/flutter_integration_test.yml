@@ -37,13 +37,7 @@ jobs:
         run: |
           echo "Listing all files:"
           find .
-
-      - name: Verify APK paths
-        run: |
-            echo "Listing debug APK:"
-            ls -l android/app/build/outputs/apk/debug/
-            echo "Listing test APK:"
-            ls -l android/app/build/outputs/apk/androidTest/debug/    
+   
 
       - name: Authenticate to Google Cloud
         run: |
@@ -62,7 +56,7 @@ jobs:
         run: |
           gcloud firebase test android run \
               --type instrumentation \
-              --app build/outputs/apk/debug/app-debug.apk \
+              --app build/app/outputs/flutter-apk/app-debug.apk \
               --test build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
               --device model=Pixel2,version=29,locale=en,orientation=portrait
         env:
