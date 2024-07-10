@@ -25,13 +25,13 @@ jobs:
         run: flutter pub get
 
       - name: Build apk with flutter
-        run: flutter build apk --release
+        run: flutter build apk --debug
 
       - name: Build Android test APK
         run: |
           cd android
-          ./gradlew app:assembleDebug
           ./gradlew app:assembleAndroidTest
+          ./gradlew app:assembleDebug -Ptarget=test_driver/integration_test_driver.dart
 
       - name: Authenticate to Google Cloud
         run: |
@@ -44,8 +44,8 @@ jobs:
         run: |
           gcloud firebase test android run \
             --type instrumentation \
-            --app build/app/outputs/flutter-apk/app-release.apk \
-            --test build/outputs/flutter-apk/app-release.apk \
+            --app build/app/outputs/apk/debug/app-debug.apk \
+            --test build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
             --device model=Pixel2,version=29,locale=en,orientation=portrait
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
