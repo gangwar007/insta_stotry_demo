@@ -42,9 +42,9 @@ jobs:
       - name: Verify APK paths
         run: |
             echo "Listing debug APK:"
-            ls -l build/app/outputs/flutter-apk/app-debug.apk
+            ls -l ../build/app/outputs/flutter-apk/app-debug.apk
             echo "Listing test APK:"
-            ls -l build/outputs/apk/androidTest/debug/
+            ls -l ../build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
       - name: Run tests in Firebase Test Lab
         run: |
