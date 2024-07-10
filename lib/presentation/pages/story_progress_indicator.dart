@@ -23,7 +23,7 @@ class StoryProgressIndicator extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: index == currentStoryIndex ? progress : (index < currentStoryIndex ? 1.0 : 0.0),
                 backgroundColor: Colors.grey[300],
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.red),
               ),
             ),
           ),
