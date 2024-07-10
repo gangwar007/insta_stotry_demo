@@ -35,8 +35,6 @@ jobs:
 
       - name: Verify APK paths
         run: |
-            echo "Listing release APK:"
-            ls -l android/app/build/outputs/apk/release/
             echo "Listing debug APK:"
             ls -l android/app/build/outputs/apk/debug/
             echo "Listing test APK:"
