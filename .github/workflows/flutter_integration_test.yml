@@ -33,6 +33,11 @@ jobs:
           ./gradlew app:assembleAndroidTest
           ./gradlew app:assembleDebug -Ptarget=integration_test/story_detail_screen_test.dart
 
+      - name: List all files for debugging
+        run: |
+          echo "Listing all files:"
+          find .
+
       - name: Verify APK paths
         run: |
             echo "Listing debug APK:"
