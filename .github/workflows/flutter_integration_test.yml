@@ -54,6 +54,6 @@ jobs:
               --type instrumentation \
               --app ./build/app/outputs/apk/debug/app-debug.apk \
               --test ./build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              --timeout 40m
+              --timeout 5m
         env:
             GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcloud-service-key.json
