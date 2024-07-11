@@ -50,7 +50,7 @@ jobs:
           gcloud auth activate-service-account --key-file=$HOME/gcloud-service-key.json
           gcloud --quiet config set project instastory-ef479
           
-          gcloud firebase test ios run \
+          gcloud firebase test android run \
               --type instrumentation \
               --app ./build/app/outputs/apk/debug/app-debug.apk \
               --test ./build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
