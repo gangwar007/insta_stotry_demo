@@ -30,7 +30,7 @@ void main() {
       expect(find.byType(Image), findsOneWidget);
     });
 
-   /* testWidgets('Story auto-advance works correctly', (WidgetTester tester) async {
+    testWidgets('Story auto-advance works correctly', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
 
       // Ensure that the StoriesScreen is loaded
@@ -53,7 +53,7 @@ void main() {
 
       final storyBloc = BlocProvider.of<StoryBloc>(tester.element(storyDetailScreenFinder));
       expect((storyBloc.state as StoryLoaded).currentStoryIndex, 1);
-    });*/
+    });
 
     testWidgets('Manual navigation between stories works correctly', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
@@ -102,7 +102,7 @@ void main() {
       expect(progressIndicator.progress < 1, true);
     });
 
-   /* testWidgets('StoryDetailScreen pops after the last story', (WidgetTester tester) async {
+    testWidgets('StoryDetailScreen pops after the last story', (WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
 
       // Ensure that the StoriesScreen is loaded
@@ -117,6 +117,6 @@ void main() {
 
       // Verify that the StoryDetailScreen is popped and we are back to the StoriesScreen
       expect(find.byType(StoriesScreen), findsOneWidget);
-    });*/
+    });
   });
 }
